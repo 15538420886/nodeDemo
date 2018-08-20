@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+</head>
+<body>
+    <div class="content">
+        <img src="images/Img/icon.png" alt="image"/>
+        <form enctype="modifyPic" method="post" name=""fileInfo class="file">
+            <input type="file" accept="image/png,image/jpg" id="picUpload" name="file"/>
+            <input type="button" id="fileConfirm" class="button" value="确定"/>
+        </form>
+        <form action="changeUserInfo">
+            <div><span>姓 &nbsp;&nbsp;名 ：</span><input type="text" name="name" id="name" placeholder="请输入姓名"></div>
+            <div><span>用户名 ：</span><input type="text" name="username" id="username" placeholder="请输入用户名"/> </div>
+            <div><span>密 &nbsp;&nbsp;码 ：</span><input type="password" name="password" id="password" placeholder="请输入密码"/> </div>
+            <!--<p>还没有账户？<a>去注册吧</a></p>-->
+            <div><input type="submit" value="提交" class="button"></div>
+        </form>
+    </div>
+</body>
+<script>
+    var name = $('#name')
+    var username = $('#username')
+    var password = $('#password')
+    // $('.button').click(function(){
+    //     if(name.val()=='' || username.val()=='' || password.val()==''){
+    //         alert('用户')
+    //     }
+    // })
+
+    $('#fileConfirm').click(function(){
+        let formData = new FormData();
+        formData.append('file',$("input[name = 'file']")[0].files[0])
+        console.log(formData.get('file'))
+        $.ajax({
+            url:"/modifyPic",
+            type:"post",
+            data:formData,
+            processData:false,
+            contentType:false,
+            success:function(){
+                alert('更换头像成功！')
+                location.reload()
+            }
+        })
+    })
+</script>
+</html>

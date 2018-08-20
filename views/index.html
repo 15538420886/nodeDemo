@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+</head>
+<body>
+<form action="userRegister" class="content" method="post">
+    <div><span>姓 &nbsp;&nbsp;名 ：</span><input type="text" name="name" id="name" placeholder="请输入姓名"></div>
+    <div><span>用户名 ：</span><input type="text" name="username" placeholder="请输入用户名" id="username"/> </div>
+    <div><span>密 &nbsp;&nbsp;码 ：</span><input type="password" name="password" placeholder="请输入密码" id="pass"/> </div>
+    <!--<p>还没有账户？<a>去注册吧</a></p>-->
+    <div><input type="submit" value="提交" class="button"></div>
+</form>
+</body>
+<script>
+    $(function(){
+        var name = $('#name')
+        var username = $('#username')
+        var password = $('#pass')
+        $('.button').click(function(){
+            if(name.val() == '' || username.val() == ''|| password.val() == ''){
+                alert('用户信息不可为空！')
+                return false
+            }else{
+                $.ajax({
+                    url:"/userRegister",
+                    data:{
+                        name:name.val(),
+                        username:username.val(),
+                        password:password.val()
+                    },
+                    type:"POST",
+                    timeout:36000,
+                    dataType:"text",
+                    success:function(data,textStatus){
+                        var dataJson = eval("("+data+")")
+                        if(dataJson.code == 200){
+                            alert('注册成功！')
+                            window.location.href = "/login";
+                        }else if(dataJson.code == 300){
+                            alert('该账号已存在！')
+                            return false
+                        }else if(dataJson.code == 400){
+                            alert('注册失败')
+                            return false
+                        }else{
+                            alert('注册失败！')
+                            return false
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        alert("error:" + textStatus);
+                    }
+                })
+            }
+        })
+    })
+
+</script>
+</html>
